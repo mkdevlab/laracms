@@ -36,6 +36,7 @@
                   <th>Product Name</th>
                   <th>Category</th>
                   <th>Price</th>
+                  <th>Qty</th>
                   <th>Active</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -51,12 +52,13 @@
                   <td>{{ $product->product_name }}</td>
                   <td>{{ $product->category_name }}</td>
                   <td>{{ $product->product_price }}</td>
+                   <td>{{ $product->product_quantity }}</td>
                   <td>{{ $product->is_active }}</td>
                   <td>
                   	<a href="{{ route('product.edit',['product'=>$product->id])}}" class="btn btn-default btn-sm"><i class="fas fa-edit"></i></a>
                   </td>	
                   <td>
-                  	<form role="form" class="delete" method="post" action="{{ route('product.destroy',['product'=>$product->id]) }}">
+                  	<form id="deleteform-{{ $product->id }}" role="form" class="confirm-delete" data-id="{{ $product->id }}" method="post" action="{{ route('product.destroy',['product'=>$product->id]) }}">
                   	{{ csrf_field() }}	
                   	{{ method_field('DELETE') }}	
                   	<button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a></button>
@@ -90,6 +92,29 @@
     <!-- /.row -->
 </section>
 
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirm Delete</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete...?</p>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" id="btnDeleteYes" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 @endsection
 
 @section('script')
@@ -99,8 +124,17 @@
   });
 </script>
 <script>
-$(".delete").on("submit", function(){
-    return confirm("Are you sure to delete... ?");
+$('.confirm-delete').on('click', function(e) {
+    e.preventDefault();
+    var form_id = $(this).data('id');
+    $('#myModal').data('delformid', form_id).modal('show');
+    //console.log(form_id);
+});
+$('#btnDeleteYes').click(function() {
+    var del_form_id = $('#myModal').data('delformid');
+    //console.log(del_form_id);
+    $('#deleteform-'+del_form_id).submit();
+    $('#myModal').modal('hide');
 });
 </script>
 @endsection

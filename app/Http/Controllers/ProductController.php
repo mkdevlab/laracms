@@ -20,7 +20,7 @@ class ProductController extends Controller
       //$products = Product::all();
 
         $products = DB::table('products')->leftjoin('categories', 'products.category_id', '=', 'categories.id')
-                                           ->select(DB::raw("products.id,products.product_code,products.product_name,products.product_price,products.product_image,categories.category_name,(CASE WHEN (products.is_active = 1) THEN 'Yes' ELSE 'No' END) as is_active"))
+                                           ->select(DB::raw("products.id,products.product_code,products.product_name,products.product_price,products.product_quantity,products.product_image,categories.category_name,(CASE WHEN (products.is_active = 1) THEN 'Yes' ELSE 'No' END) as is_active"))
                                            ->where('products.is_delete', '=', 0)->get();
 
         return view('admin.products.index',['products'=>$products])->with('SNo', 1);

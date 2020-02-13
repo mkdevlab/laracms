@@ -6,12 +6,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-10">
-        <h1>Categories</h1>
+        <h1>Invoices</h1>
       </div>
       <div class="col-sm-1">
-    	<ol class="breadcrumb float-sm-right">
-    		<a href="{{ route('category.create')}}" class="btn btn-info btn-sm"><i class="fas fa-plus-square"></i></a>
-		</ol>
+      	<ol class="breadcrumb float-sm-right">
+      		<a href="{{ route('invoice.create')}}" class="btn btn-info btn-sm"><i class="fas fa-plus-square"></i></a>
+  		  </ol>
       </div>
       <div class="col-sm-1"></div>
     </div>
@@ -31,24 +31,32 @@
                 <thead>	
                 <tr>
                   <th style="text-align: center;">SNo.</th>
-                  <th>Category Name</th>
-                  <th>Active</th>
+                  <th>Invoice No.</th>
+                  <th>Invoice Date</th>
+                  <th>Customer Name</th>
+                  <th>Total Amount</th>
+                  <th>Paid</th>
+                  <th>Print</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 
-                @foreach($categories as $category)	
+                @foreach($invoices as $invoice)	
                 <tr>
                   <td style="text-align: center;">{{ $SNo++ }}.</td>
-                  <td>{{ $category->category_name }}</td>
-                  <td>{{ $category->is_active }}</td>
+                  <td>{{ $invoice->invoice_no }}</td>
+                  <td>{{ $invoice->invoice_date }}</td>
+                  <td>{{ $invoice->customer_name }}</td>
+                  <td>{{ $invoice->total_amount }}</td>
+                  <td>{{ $invoice->is_paid }}</td>
+                  <td><a href="#">print</a></td>
                   <td>
-                  	<a href="{{ route('category.edit',['category'=>$category->id])}}" class="btn btn-default btn-sm"><i class="fas fa-edit"></i></a>
+                  	<a href="{{ route('invoice.edit',['invoice'=>$invoice->id])}}" class="btn btn-default btn-sm"><i class="fas fa-edit"></i></a>
                   </td>	
                   <td>
-                  	<form id="deleteform-{{ $category->id }}" role="form" class="confirm-delete" data-id="{{ $category->id }}" method="post" action="{{ route('category.destroy',['category'=>$category->id]) }}">
+                  	<form id="deleteform-{{ $invoice->id }}" role="form" class="confirm-delete" data-id="{{ $invoice->id }}" method="post" action="{{ route('invoice.destroy',['invoice'=>$invoice->id]) }}">
                   	{{ csrf_field() }}	
                   	{{ method_field('DELETE') }}	
                   	<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a></button><!-- data-toggle="modal" data-target="#modal-default"-->
@@ -61,8 +69,12 @@
                 <tfoot>
                 <tr>
                   <th style="text-align: center;">SNo.</th>
-                  <th>Category Name</th>
-                  <th>Active</th>
+                  <th>Invoice No.</th>
+                  <th>Invoice Date</th>
+                  <th>Customer Name</th>
+                  <th>Total Amount</th>
+                  <th>Paid</th>
+                  <th>Edit</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -107,14 +119,6 @@
 <script>
   $(function () {
     $("#example1").DataTable();
-  /*$('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": fals
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });*/
   });
 </script>
 <script>

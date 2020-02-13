@@ -17,14 +17,20 @@
 
   <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <!--Select2-->
+  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- JQVMap --> 
   <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <!-- Date picker -->
+  <link rel="stylesheet" href="{{ asset('plugins/datepicker/datepicker3.css') }}">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
@@ -178,7 +184,11 @@
           <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block">
+            @if(Auth::user())           
+              {{ Auth::user()->name }}
+            @endif
+          </a>
         </div>
       </div>
 
@@ -277,6 +287,9 @@
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 
+<!-- Select2 -->
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+
 <!-- Toastr -->
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 
@@ -289,6 +302,8 @@
 <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+<!-- datepicker -->
+<script src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <!-- daterangepicker -->
 <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
@@ -332,6 +347,30 @@
     }
   @endif
 </script>
+
+<script>
+$(function () { 
+
+  //Initialize Datepicker
+  //var date = new Date();
+  //var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  $('.datepicker').datepicker({
+    format:'yyyy-mm-dd',
+    todayBtn: true,
+    todayHighlight: true,
+    autoclose: true,
+  });
+
+  //Initialize Select2 Elements
+  $('.myselect').select2();
+
+    //Initialize Select2 Elements
+  $('.myselectbs4').select2({
+    theme: 'bootstrap4'
+  });
+});
+</script>  
 
 @yield('script')
 
